@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.UserInfoDao">
+
+    <sql id="Base_Column_List">
+        id, user_id, nick_name, mobile_no, password, is_login, login_time, is_del, create_time
+    </sql>
+
+    <resultMap id="UserInfoMap" type="com.example.entity.UserInfo">
+        <result column="id" property="id" javaType="Long"/>
+        <result column="user_id" property="userId" javaType="String"/>
+        <result column="nick_name" property="nickName" javaType="String"/>
+        <result column="mobile_no" property="mobileNo" javaType="String"/>
+        <result column="password" property="password" javaType="String"/>
+        <result column="is_login" property="isLogin" javaType="Integer"/>
+        <result column="login_time" property="loginTime" javaType="java.sql.Timestamp"/>
+        <result column="is_del" property="isDel" javaType="Integer"/>
+        <result column="create_time" property="createTime" javaType="java.sql.Timestamp"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.example.entity.UserInfo">
+        insert into user_info(user_id, nick_name, mobile_no, password, is_login, login_time, is_del, create_time)
+        values(#{userId}, #{nickName}, #{mobileNo}, #{password}, #{isLogin}, #{loginTime}, #{isDel}, #{createTime})
+    </insert>
+
+    <!-- 使用 resultMap 進行映射 -->
+    <select id="selectByMobileNo" resultMap="UserInfoMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user_info
+        WHERE mobile_no=#{mobileNo}
+    </select>
+
+    <update id="updateById" parameterType="com.example.entity.UserInfo">
+        update user_info
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                nick_name = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobileNo != null">
+                mobile_no = #{mobileNo,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="isLogin != null">
+                is_login = #{isLogin,jdbcType=INTEGER},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

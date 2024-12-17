@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: spring_demo_01
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+server:
+  port: ${SERVER_PORT}
+mybatis:
+  mapper-locations: classpath:mybatis/*.xml
